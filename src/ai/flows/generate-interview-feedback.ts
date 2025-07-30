@@ -46,7 +46,8 @@ const prompt = ai.definePrompt({
   name: 'generateInterviewFeedbackPrompt',
   input: {schema: GenerateInterviewFeedbackInputSchema},
   output: {schema: GenerateInterviewFeedbackOutputSchema},
-  prompt: `You are an AI-powered interview feedback generator.
+  prompt: `
+  You are an AI-powered interview feedback generator.
 
   You will receive an interview transcript and a job description. You will use this information to generate feedback for the candidate.
 
