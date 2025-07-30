@@ -1,3 +1,4 @@
+
 'use client';
 import {
   SidebarProvider,
@@ -16,7 +17,7 @@ import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
 const menuItems = [
-  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { href: '#', label: 'Interviews', icon: BotMessageSquare },
   { href: '#', label: 'History', icon: History },
 ];

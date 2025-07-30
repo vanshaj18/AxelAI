@@ -1,7 +1,9 @@
+
 import type { Metadata } from "next";
 import "./globals.css";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Toaster } from "@/components/ui/toaster";
+import { headers } from 'next/headers';
 
 export const metadata: Metadata = {
   title: "Axel AI",
@@ -13,6 +15,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = headers().get('x-next-pathname') || '';
+  const isLoginPage = pathname === '/';
+
+  const LayoutComponent = isLoginPage ? ({ children }: { children: React.ReactNode }) => <>{children}</> : AppLayout;
+
   return (
     <html lang="en" className="dark">
       <head>
@@ -28,7 +35,7 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <AppLayout>{children}</AppLayout>
+        <LayoutComponent>{children}</LayoutComponent>
         <Toaster />
       </body>
     </html>

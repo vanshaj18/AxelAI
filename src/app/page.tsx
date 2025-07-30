@@ -1,77 +1,174 @@
-import { Button } from "@/components/ui/button";
-import { PlusCircle } from "lucide-react";
-import { InterviewCard } from "@/components/interview-card";
-import { mockInterviews } from "@/lib/mock-data";
 
-export default function DashboardPage() {
-  const activeInterviews = mockInterviews.filter(
-    (interview) => interview.status === "Active"
-  );
-  const upcomingInterviews = mockInterviews.filter(
-    (interview) => interview.status === "Upcoming"
-  );
-  const pastInterviews = mockInterviews.filter(
-    (interview) => interview.status === "Past"
-  );
+'use client';
+
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import * as z from 'zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
+import { useToast } from '@/hooks/use-toast';
+import { AxelLogo } from '@/components/axel-logo';
+import { generateLoginCode, verifyLoginCode } from './actions';
+import { Loader2 } from 'lucide-react';
+
+const emailSchema = z.object({
+  email: z.string().email({ message: 'Please enter a valid email address.' }),
+});
+
+const codeSchema = z.object({
+  email: z.string().email(),
+  code: z.string().min(8, { message: 'Code must be 8 characters long.' }).max(8),
+});
+
+type EmailFormValues = z.infer<typeof emailSchema>;
+type CodeFormValues = z.infer<typeof codeSchema>;
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [step, setStep] = useState<'email' | 'code'>('email');
+  const [email, setEmail] = useState('');
+  const [isGeneratingCode, setIsGeneratingCode] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
+
+  const emailForm = useForm<EmailFormValues>({
+    resolver: zodResolver(emailSchema),
+    defaultValues: {
+      email: '',
+    },
+  });
+
+  const codeForm = useForm<CodeFormValues>({
+    resolver: zodResolver(codeSchema),
+    defaultValues: {
+      email: '',
+      code: '',
+    },
+  });
+
+  const handleGenerateCode = async (values: EmailFormValues) => {
+    setIsGeneratingCode(true);
+    setEmail(values.email);
+    const result = await generateLoginCode(values.email);
+    if (result.success) {
+      toast({
+        title: 'Code Generated',
+        description: 'A login code has been sent to your email. (Check console for mock).',
+      });
+      setStep('code');
+      codeForm.setValue('email', values.email);
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Error',
+        description: result.error,
+      });
+    }
+    setIsGeneratingCode(false);
+  };
+
+  const handleVerifyCode = async (values: CodeFormValues) => {
+    setIsVerifying(true);
+    const result = await verifyLoginCode(values.email, values.code);
+    if (result.success) {
+      toast({
+        title: 'Login Successful',
+        description: "You've been successfully logged in.",
+      });
+      // In a real app, you'd set up a session here.
+      // We'll use a simple query param for this POC.
+      router.push(`/dashboard?email=${encodeURIComponent(values.email)}`);
+    } else {
+      toast({
+        variant: 'destructive',
+        title: 'Login Failed',
+        description: result.error,
+      });
+    }
+    setIsVerifying(false);
+  };
 
   return (
-    <div className="flex flex-col gap-8">
-      <div className="flex items-center justify-between">
-        <h1 className="font-headline text-3xl font-bold">Dashboard</h1>
-        <Button>
-          <PlusCircle />
-          Start New Interview
-        </Button>
-      </div>
-
-      <section>
-        <h2 className="font-headline text-2xl font-semibold mb-4">
-          Active Interviews
-        </h2>
-        {activeInterviews.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {activeInterviews.map((interview) => (
-              <InterviewCard key={interview.id} interview={interview} />
-            ))}
+    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+      <Card className="w-full max-w-md">
+        <CardHeader className="text-center">
+          <div className="mx-auto mb-4">
+            <AxelLogo />
           </div>
-        ) : (
-          <p className="text-muted-foreground">
-            No active interviews. Start one to get going!
-          </p>
-        )}
-      </section>
-
-      <section>
-        <h2 className="font-headline text-2xl font-semibold mb-4">
-          Upcoming Interviews
-        </h2>
-        {upcomingInterviews.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {upcomingInterviews.map((interview) => (
-              <InterviewCard key={interview.id} interview={interview} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">
-            No upcoming interviews scheduled.
-          </p>
-        )}
-      </section>
-
-      <section>
-        <h2 className="font-headline text-2xl font-semibold mb-4">
-          Past Interviews
-        </h2>
-        {pastInterviews.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {pastInterviews.map((interview) => (
-              <InterviewCard key={interview.id} interview={interview} />
-            ))}
-          </div>
-        ) : (
-          <p className="text-muted-foreground">No past interview history.</p>
-        )}
-      </section>
+          <CardTitle className="font-headline text-2xl">Welcome Back</CardTitle>
+          <CardDescription>
+            {step === 'email'
+              ? 'Enter your email to receive a login code.'
+              : 'Check your email for the 8-character code.'}
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          {step === 'email' ? (
+            <Form {...emailForm}>
+              <form onSubmit={emailForm.handleSubmit(handleGenerateCode)} className="space-y-6">
+                <FormField
+                  control={emailForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input placeholder="you@example.com" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={isGeneratingCode}>
+                  {isGeneratingCode && <Loader2 className="animate-spin" />}
+                  Generate Code
+                </Button>
+              </form>
+            </Form>
+          ) : (
+            <Form {...codeForm}>
+              <form onSubmit={codeForm.handleSubmit(handleVerifyCode)} className="space-y-6">
+                 <FormField
+                  control={codeForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input {...field} readOnly disabled />
+                      </FormControl>
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={codeForm.control}
+                  name="code"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Verification Code</FormLabel>
+                      <FormControl>
+                        <Input placeholder="ABC12345" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <Button type="submit" className="w-full" disabled={isVerifying}>
+                   {isVerifying && <Loader2 className="animate-spin" />}
+                  Login
+                </Button>
+                 <Button variant="link" size="sm" className="w-full" onClick={() => setStep('email')}>
+                    Use a different email
+                </Button>
+              </form>
+            </Form>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 }
