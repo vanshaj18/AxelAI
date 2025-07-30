@@ -18,6 +18,7 @@ export default function RootLayout({
   const pathname = headers().get('x-next-pathname') || '';
   const isLoginPage = pathname === '/';
 
+  // Use AppLayout for all pages except the login page
   const LayoutComponent = isLoginPage ? ({ children }: { children: React.ReactNode }) => <>{children}</> : AppLayout;
 
   return (
