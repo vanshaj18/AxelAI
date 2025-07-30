@@ -10,6 +10,7 @@ import { Download, AlertCircle, ThumbsUp, ThumbsDown, Forward } from 'lucide-rea
 import { getFeedback } from '../actions';
 import type { GenerateInterviewFeedbackOutput } from '@/ai/flows/generate-interview-feedback';
 import Link from 'next/link';
+import { cn } from '@/lib/utils';
 
 export function FeedbackClient({
   interview,
