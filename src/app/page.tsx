@@ -79,9 +79,8 @@ export default function LoginPage() {
         title: 'Login Successful',
         description: "You've been successfully logged in.",
       });
-      // In a real app, you'd set up a session here.
-      // We'll use a simple query param for this POC.
-      router.push(`/dashboard?email=${encodeURIComponent(values.email)}`);
+      router.push('/dashboard');
+      router.refresh(); // This is important to re-run the middleware and get the session cookie
     } else {
       toast({
         variant: 'destructive',
