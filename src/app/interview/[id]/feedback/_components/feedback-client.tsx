@@ -2,8 +2,8 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import jsPDF from 'jspdf';
-import html2canvas from 'html2canvas';
+import type jsPDF from 'jspdf';
+import type html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -54,6 +54,9 @@ export function FeedbackClient({
 
     setIsDownloading(true);
     try {
+        const { default: jsPDF } = await import('jspdf');
+        const { default: html2canvas } = await import('html2canvas');
+
         const canvas = await html2canvas(reportElement, {
             scale: 2,
             useCORS: true,
