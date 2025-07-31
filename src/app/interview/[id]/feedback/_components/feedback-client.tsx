@@ -1,12 +1,15 @@
+
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import type { Interview } from '@/lib/types';
-import { Download, AlertCircle, ThumbsUp, ThumbsDown, Forward } from 'lucide-react';
+import { Download, AlertCircle, ThumbsUp, ThumbsDown, Forward, Loader2 } from 'lucide-react';
 import { getFeedback } from '../actions';
 import type { GenerateInterviewFeedbackOutput } from '@/ai/flows/generate-interview-feedback';
 import Link from 'next/link';
@@ -21,7 +24,9 @@ export function FeedbackClient({
 }) {
   const [feedback, setFeedback] = useState<GenerateInterviewFeedbackOutput | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isDownloading, setIsDownloading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const feedbackReportRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const fetchFeedback = async () => {
@@ -42,6 +47,35 @@ export function FeedbackClient({
 
     fetchFeedback();
   }, [transcript, interview.jobDescription]);
+
+  const handleDownloadPdf = async () => {
+    const reportElement = feedbackReportRef.current;
+    if (!reportElement || isDownloading) return;
+
+    setIsDownloading(true);
+    try {
+        const canvas = await html2canvas(reportElement, {
+            scale: 2,
+            useCORS: true,
+            backgroundColor: '#202332' // Match dark theme bg
+        });
+        const imgData = canvas.toDataURL('image/png');
+        
+        const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'px',
+            format: [canvas.width, canvas.height]
+        });
+
+        pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+        pdf.save(`Axel_AI_Feedback_Report_${interview.id}.pdf`);
+    } catch (err) {
+        console.error("Failed to generate PDF", err);
+        setError("Could not generate the PDF report. Please try again.");
+    } finally {
+        setIsDownloading(false);
+    }
+  }
 
   const FeedbackSection = ({ title, content, icon: Icon, variant }: { title: string; content: string | null; icon: React.ElementType; variant: 'success' | 'destructive' | 'default'}) => {
     const colorClass = {
@@ -81,11 +115,11 @@ export function FeedbackClient({
             <p className="text-muted-foreground">For your interview for the {interview.role} position.</p>
         </div>
         <div className="flex gap-2">
-            <Button variant="outline">
-                <Download className="mr-2 h-4 w-4" />
+            <Button variant="outline" onClick={handleDownloadPdf} disabled={isLoading || isDownloading}>
+                {isDownloading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Download className="mr-2 h-4 w-4" />}
                 Download PDF
             </Button>
-             <Link href="/" passHref>
+             <Link href="/dashboard" passHref>
                 <Button>Back to Dashboard</Button>
             </Link>
         </div>
@@ -98,14 +132,15 @@ export function FeedbackClient({
             <AlertDescription>{error}</AlertDescription>
         </Alert>
       )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <FeedbackSection title="Strengths" content={feedback?.strengths ?? null} icon={ThumbsUp} variant="success" />
-        <FeedbackSection title="Areas for Improvement" content={feedback?.weaknesses ?? null} icon={ThumbsDown} variant="destructive" />
-      </div>
-      <div>
-        <FeedbackSection title="Suggested Next Steps" content={feedback?.nextSteps ?? null} icon={Forward} variant="default" />
-      </div>
+        <div ref={feedbackReportRef} className="p-4 bg-background">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <FeedbackSection title="Strengths" content={feedback?.strengths ?? null} icon={ThumbsUp} variant="success" />
+                <FeedbackSection title="Areas for Improvement" content={feedback?.weaknesses ?? null} icon={ThumbsDown} variant="destructive" />
+            </div>
+            <div>
+                <FeedbackSection title="Suggested Next Steps" content={feedback?.nextSteps ?? null} icon={Forward} variant="default" />
+            </div>
+        </div>
     </div>
   );
 }
