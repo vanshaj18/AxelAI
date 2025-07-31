@@ -50,8 +50,8 @@ export default function LoginPage() {
         title: 'Login Failed',
         description: result.error,
       });
+      setIsLoggingIn(false);
     }
-    setIsLoggingIn(false);
   };
 
   return (
