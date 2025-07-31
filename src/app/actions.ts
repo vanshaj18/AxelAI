@@ -23,19 +23,20 @@ const sendLoginCodeEmail = (email: string, code: string) => {
 export async function generateLoginCode(email: string) {
   try {
     const code = randomBytes(4).toString('hex').toUpperCase();
-    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
 
+    const expiresAt = new Date(Date.now() + 15 * 60 * 1000); // 15 minutes from now
+    // storing the value in the db
     await addDoc(collection(db, 'tempCodes'), {
       email,
       code,
       createdAt: serverTimestamp(),
       expiresAt,
     });
-
+    
     // Simulate sending email
     sendLoginCodeEmail(email, code);
-
     return { success: true };
+
   } catch (error) {
     console.error('Error generating login code:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
@@ -62,6 +63,7 @@ export async function verifyLoginCode(email: string, code: string) {
     const data = doc.data();
 
     if (data.expiresAt.toDate() < new Date()) {
+      await deleteDoc(doc.ref);
       return { success: false, error: 'Your code has expired. Please request a new one.' };
     }
     
@@ -77,7 +79,8 @@ export async function verifyLoginCode(email: string, code: string) {
     await deleteDoc(doc.ref);
 
     return { success: true };
-  } catch (error) {
+  } 
+  catch (error) {
     console.error('Error verifying login code:', error);
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
     return { success: false, error: `Failed to verify code: ${errorMessage}` };

@@ -10,12 +10,12 @@ export const metadata: Metadata = {
   description: "AI-powered interview practice platform",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const pathname = headers().get('x-next-pathname') || '';
+  const pathname = (await headers()).get('x-next-pathname') || '';
   const isLoginPage = pathname === '/';
 
   // Use AppLayout for all pages except the login page

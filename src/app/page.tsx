@@ -31,7 +31,6 @@ export default function LoginPage() {
   const router = useRouter();
   const { toast } = useToast();
   const [step, setStep] = useState<'email' | 'code'>('email');
-  const [email, setEmail] = useState('');
   const [isGeneratingCode, setIsGeneratingCode] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
 
@@ -52,8 +51,8 @@ export default function LoginPage() {
 
   const handleGenerateCode = async (values: EmailFormValues) => {
     setIsGeneratingCode(true);
-    setEmail(values.email);
     const result = await generateLoginCode(values.email);
+
     if (result.success) {
       toast({
         title: 'Code Generated',
@@ -80,7 +79,7 @@ export default function LoginPage() {
         description: "You've been successfully logged in.",
       });
       router.push('/dashboard');
-      router.refresh(); // This is important to re-run the middleware and get the session cookie
+      router.refresh(); 
     } else {
       toast({
         variant: 'destructive',
@@ -98,7 +97,7 @@ export default function LoginPage() {
           <div className="mx-auto mb-4">
             <AxelLogo />
           </div>
-          <CardTitle className="font-headline text-2xl">Welcome Back</CardTitle>
+          <CardTitle className="font-headline text-2xl">Login Interview Session</CardTitle>
           <CardDescription>
             {step === 'email'
               ? 'Enter your email to receive a login code.'
@@ -123,7 +122,7 @@ export default function LoginPage() {
                   )}
                 />
                 <Button type="submit" className="w-full" disabled={isGeneratingCode}>
-                  {isGeneratingCode && <Loader2 className="animate-spin" />}
+                  {isGeneratingCode ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                   Generate Code
                 </Button>
               </form>
@@ -150,17 +149,20 @@ export default function LoginPage() {
                     <FormItem>
                       <FormLabel>Verification Code</FormLabel>
                       <FormControl>
-                        <Input placeholder="ABC12345" {...field} />
+                        <Input placeholder="A1B2C3D4" {...field} autoComplete="one-time-code" />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
                 <Button type="submit" className="w-full" disabled={isVerifying}>
-                   {isVerifying && <Loader2 className="animate-spin" />}
+                   {isVerifying ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                   Login
                 </Button>
-                 <Button variant="link" size="sm" className="w-full" onClick={() => setStep('email')}>
+                 <Button variant="link" size="sm" className="w-full" onClick={() => {
+                   setStep('email');
+                   emailForm.setValue('email', codeForm.getValues('email'));
+                   }}>
                     Use a different email
                 </Button>
               </form>

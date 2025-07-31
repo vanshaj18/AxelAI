@@ -24,6 +24,11 @@ const menuItems = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const isLoginPage = pathname === "/";
+
+  if (isLoginPage) {
+    return <>{children}</>; // no sidebar, no header
+  }
 
   return (
     <SidebarProvider>
