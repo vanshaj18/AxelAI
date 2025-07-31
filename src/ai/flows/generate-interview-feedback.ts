@@ -51,7 +51,7 @@ const prompt = ai.definePrompt({
 
   You will receive an interview transcript and a job description. You will use this information to generate feedback for the candidate.
 
-  The feedback should include the candidate's strengths, weaknesses, and next steps they should take to improve.
+  The feedback should include the candidate's strengths, weaknesses, and if they are a good fit for the position.
 
   Interview Transcript: {{{interviewTranscript}}}
   Job Description: {{{jobDescription}}}`,

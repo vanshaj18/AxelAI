@@ -4,9 +4,9 @@
 /**
  * @fileOverview This file defines a Genkit flow to personalize interview questions based on aggregated candidate performance data.
  *
- * - personalizeInterviewQuestions - A function that personalizes interview questions.
+ * - personalizeInterviewQuestions - A .
  * - PersonalizeInterviewQuestionsInput - The input type for the personalizeInterviewQuestions function.
- * - PersonalizeInterviewQuestionsOutput - The output type for the personalizeInterviewQuestions function.
+ * - PersonalizeInterviewQuestionsOutput - The output type for the personalizeInterviewQuestions funcfunction that personalizes interview questionstion.
  */
 
 import {ai} from '@/ai/genkit';
@@ -40,7 +40,9 @@ const prompt = ai.definePrompt({
   },
   prompt: `You are an expert talent acquisition specialist, skilled at crafting insightful and challenging interview questions.
 
-  Based on aggregated candidate performance data, you will revise a set of existing interview questions for a specific job title. Your goal is to improve the relevance and difficulty of the interview process, targeting areas where candidates commonly struggle and highlighting areas that determine success in the role.
+  Based on aggregated candidate performance data, you will revise a set of existing interview questions for a specific job title. 
+  Your goal is to improve the relevance and difficulty of the interview process, targeting areas where candidates commonly struggle 
+  and highlighting areas that determine success in the role.
 
   Job Title: {{{jobTitle}}}
 
