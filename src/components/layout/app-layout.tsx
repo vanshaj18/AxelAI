@@ -15,6 +15,7 @@ import { AxelLogo } from '@/components/axel-logo';
 import { Header } from './header';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
+import { usePageLoader } from '@/hooks/use-page-loader';
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
@@ -24,6 +25,7 @@ const menuItems = [
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+  const { showLoader } = usePageLoader();
   const isLoginPage = pathname === "/";
 
   if (isLoginPage) {
@@ -44,6 +46,7 @@ export function AppLayout({ children }: { children: React.ReactNode }) {
                   asChild
                   isActive={pathname === item.href}
                   tooltip={item.label}
+                  onClick={item.href === '#' ? undefined : showLoader}
                 >
                   <Link href={item.href}>
                     <item.icon />

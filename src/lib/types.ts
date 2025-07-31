@@ -7,6 +7,7 @@ export interface Interview {
   date: string;
   status: InterviewStatus;
   jobDescription: string;
+  shortDescription: string;
   candidateResume: string;
 }
 

@@ -14,11 +14,10 @@ import { handleUserResponse } from '../actions';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
-const initialQuestion = "Hello, I'm your AI interviewer from Axel AI. I'm here to help you practice for your upcoming interview. To start, can you please tell me a bit about yourself and your experience?";
-
 export function InterviewClient({ interview }: { interview: Interview }) {
   const router = useRouter();
   const { toast } = useToast();
+  const initialQuestion = `Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the ${interview.role}. Why don't we start with you telling me a bit about yourself and your experience?`;
   const [messages, setMessages] = useState<Message[]>([
     { role: 'assistant', content: initialQuestion, question: initialQuestion },
   ]);

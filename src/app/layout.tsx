@@ -4,7 +4,7 @@ import "./globals.css";
 import { AppLayout } from "@/components/layout/app-layout";
 import { Toaster } from "@/components/ui/toaster";
 import { headers } from 'next/headers';
-import { PageLoader } from "@/components/page-loader";
+import { PageLoaderRoot } from "@/components/page-loader";
 
 export const metadata: Metadata = {
   title: "Axel AI",
@@ -37,8 +37,9 @@ export default async function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <PageLoader />
-        <LayoutComponent>{children}</LayoutComponent>
+        <PageLoaderRoot>
+          <LayoutComponent>{children}</LayoutComponent>
+        </PageLoaderRoot>
         <Toaster />
       </body>
     </html>

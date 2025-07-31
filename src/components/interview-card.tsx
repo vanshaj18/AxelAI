@@ -1,3 +1,6 @@
+
+'use client';
+
 import Link from 'next/link';
 import {
   Card,
@@ -12,8 +15,12 @@ import { Button } from './ui/button';
 import { ArrowRight, Calendar, Briefcase } from 'lucide-react';
 import type { Interview } from '@/lib/types';
 import { format } from 'date-fns';
+import { useState } from 'react';
+import { usePageLoader } from '@/hooks/use-page-loader';
 
 export function InterviewCard({ interview }: { interview: Interview }) {
+  const { showLoader } = usePageLoader();
+  
   const getBadgeVariant = (status: Interview['status']) => {
     switch (status) {
       case 'Active':
@@ -58,7 +65,7 @@ export function InterviewCard({ interview }: { interview: Interview }) {
         </div>
         <CardDescription className="flex items-center gap-2 pt-1">
           <Briefcase size={14} />
-          {interview.company}
+          {interview.shortDescription}
         </CardDescription>
       </CardHeader>
       <CardContent className="flex-grow">
@@ -68,7 +75,7 @@ export function InterviewCard({ interview }: { interview: Interview }) {
         </div>
       </CardContent>
       <CardFooter>
-        <Link href={getLink(interview.status, interview.id)} className="w-full">
+        <Link href={getLink(interview.status, interview.id)} className="w-full" onClick={showLoader}>
           <Button variant="outline" className="w-full">
             {getButtonText(interview.status)}
             <ArrowRight className="ml-2" />

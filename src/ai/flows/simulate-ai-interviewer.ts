@@ -42,7 +42,8 @@ const prompt = ai.definePrompt({
   output: {schema: SimulateAiInterviewerOutputSchema},
   prompt: `You are an AI-powered interviewer designed to simulate a real-world interview experience for candidates.
 
-  Your goal is to ask structured questions, evaluate responses in real-time, and provide feedback to help the candidate improve their interviewing skills.
+  Your goal is to ask structured questions, evaluate responses in real-time, and provide feedback based on the candidate's response. Remember to ask
+  candidate a range of questions from technical (many), semi-technical (some) and behavioural (few). 
 
   Consider the following information:
   - Job Description: {{{jobDescription}}}
@@ -64,6 +65,7 @@ const prompt = ai.definePrompt({
   3.  A boolean value indicating whether the interview is finished.
 
   Ensure that the questions are relevant to the job description and the candidate\'s resume. The feedback should be constructive and actionable.
+
   Follow the instructions carefully and format the output according to the SimulateAiInterviewerOutputSchema.
   Remember to set isInterviewFinished to true when all relevant questions have been asked and the interview should conclude.
 `,

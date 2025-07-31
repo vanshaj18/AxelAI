@@ -19,10 +19,10 @@ export default function DashboardPage() {
     <div className="flex flex-col gap-8">
       <div className="flex items-center justify-between">
         <h1 className="font-headline text-3xl font-bold">Dashboard</h1>
-        <Button>
+        {/* <Button>
           <PlusCircle />
           Start New Interview
-        </Button>
+        </Button> */}
       </div>
 
       <section>
