@@ -5,9 +5,7 @@ import { PlusCircle } from "lucide-react";
 import { InterviewCard } from "@/components/interview-card";
 import type { Interview } from "@/lib/types";
 import { useEffect, useState } from "react";
-import { collection, query, where, getDocs } from "firebase/firestore";
-import { db } from "@/lib/firebase";
-import { Skeleton } from "@/components/ui/skeleton";
+import { mockInterviews } from "@/lib/mock-data";
 import { usePageLoader } from "@/hooks/use-page-loader";
 
 
@@ -17,21 +15,10 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchInterviews = async () => {
-      try {
-        const q = query(collection(db, "axelaiDatabase/codingNinjasTest/interviews"));
-        const querySnapshot = await getDocs(q);
-        const fetchedInterviews = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Interview));
-        setInterviews(fetchedInterviews);
-      } catch (err) {
-        setError("Failed to fetch interviews. Please try again later.");
-        console.error(err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchInterviews();
+    setIsLoading(true);
+    // Using mock data for the dashboard
+    setInterviews(mockInterviews);
+    setIsLoading(false);
   }, []);
 
   const activeInterviews = interviews.filter(
@@ -52,7 +39,7 @@ export default function DashboardPage() {
         </h2>
         {isLoading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {[...Array(3)].map((_, i) => <Skeleton key={i} className="h-56 w-full" />)}
+            {[...Array(3)].map((_, i) => <div key={i} className="h-56 w-full bg-muted rounded-lg" />)}
           </div>
         ) : interviews.length > 0 ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">

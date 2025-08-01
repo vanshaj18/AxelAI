@@ -3,8 +3,8 @@
 
 import { simulateAiInterviewer, SimulateAiInterviewerInput } from "@/ai/flows/simulate-ai-interviewer";
 import { db } from "@/lib/firebase";
-import { doc, updateDoc } from "firebase/firestore";
-import type { Message } from "@/lib/types";
+import { doc, setDoc } from "firebase/firestore";
+import type { Message, Interview } from "@/lib/types";
 
 export async function handleUserResponse(input: SimulateAiInterviewerInput) {
     try {
@@ -17,16 +17,19 @@ export async function handleUserResponse(input: SimulateAiInterviewerInput) {
 }
 
 
-export async function saveInterviewTranscript(interviewId: string, messages: Message[]) {
+export async function saveInterviewTranscript(interview: Interview, messages: Message[]) {
     try {
         const transcript = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Interviewer'}: ${m.content}`).join('\n\n');
         
-        const interviewRef = doc(db, 'axelaiDatabase/codingNinjasTest/interviews', interviewId);
+        const interviewRef = doc(db, 'axelaiDatabase/codingNinjasTest/interviews', interview.id);
 
-        await updateDoc(interviewRef, {
+        const updatedInterview: Interview = {
+            ...interview,
             transcript: transcript,
-            status: 'Past' // Update status to Past
-        });
+            status: 'Past'
+        }
+
+        await setDoc(interviewRef, updatedInterview);
 
         return { success: true };
     } catch (error) {

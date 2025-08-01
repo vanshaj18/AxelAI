@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
@@ -18,12 +19,31 @@ export function InterviewClient({ interview }: { interview: Interview }) {
   const router = useRouter();
   const { toast } = useToast();
   const initialQuestion = `Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the ${interview.role}. Why don't we start with you telling me a bit about yourself and your experience?`;
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: initialQuestion, question: initialQuestion },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // Initialize with the first message or load from existing transcript
+    if (interview.transcript) {
+        // A simple way to parse the transcript back into messages
+        const parsedMessages: Message[] = interview.transcript.split('\n\n').map(line => {
+            const [role, ...contentParts] = line.split(': ');
+            const content = contentParts.join(': ');
+            return {
+                role: role.toLowerCase().includes('interviewer') ? 'assistant' : 'user',
+                content: content,
+                question: role.toLowerCase().includes('interviewer') ? content : undefined,
+            };
+        });
+        setMessages(parsedMessages);
+    } else {
+        setMessages([
+          { role: 'assistant', content: initialQuestion, question: initialQuestion },
+        ])
+    }
+  }, [interview, initialQuestion]);
 
   useEffect(() => {
     if (scrollAreaRef.current) {
@@ -39,8 +59,8 @@ export function InterviewClient({ interview }: { interview: Interview }) {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    const newMessages = [...messages, userMessage];
-    setMessages(newMessages);
+    const currentMessages = [...messages, userMessage];
+    setMessages(currentMessages);
     setInput('');
     setIsLoading(true);
 
@@ -62,18 +82,15 @@ export function InterviewClient({ interview }: { interview: Interview }) {
       if (res.success && res.data) {
         const { nextQuestion, feedback, isInterviewFinished } = res.data;
         
-        setMessages((prev) => {
-            const updatedMessages = [...prev];
-            const lastMessage = updatedMessages[updatedMessages.length - 1];
-            if(lastMessage.role === 'user') {
-                lastMessage.feedback = feedback;
-            }
-            return updatedMessages;
-        });
+        // Add feedback to the user message that was just sent
+        const updatedMessagesWithFeedback = currentMessages.map((msg, index) => 
+            index === currentMessages.length - 1 ? { ...msg, feedback } : msg
+        );
         
         const assistantMessage: Message = { role: 'assistant', content: nextQuestion, question: nextQuestion };
-        const finalMessages = [...newMessages, assistantMessage];
-        
+        const finalMessages = [...updatedMessagesWithFeedback, assistantMessage];
+        setMessages(finalMessages);
+
         if (isInterviewFinished) {
           toast({
             title: "Interview Complete!",
@@ -81,14 +98,12 @@ export function InterviewClient({ interview }: { interview: Interview }) {
           });
 
           // Save transcript before redirecting
-          const saveResult = await saveInterviewTranscript(interview.id, finalMessages);
+          const saveResult = await saveInterviewTranscript(interview, finalMessages);
           if (saveResult.success) {
              router.push(`/interview/${interview.id}/feedback`);
           } else {
              throw new Error(saveResult.error || "Could not save the interview transcript.");
           }
-        } else {
-          setMessages((prev) => [...prev, assistantMessage]);
         }
       } else {
         throw new Error(res.error || "An unknown error occurred.");

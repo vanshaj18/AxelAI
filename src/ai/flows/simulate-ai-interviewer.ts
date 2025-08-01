@@ -46,7 +46,8 @@ const prompt = ai.definePrompt({
   name: 'simulateAiInterviewerPrompt',
   input: {schema: SimulateAiInterviewerInputSchema},
   output: {schema: SimulateAiInterviewerOutputSchema},
-  prompt: `You are a professional and rigorous technical interviewer for a company called Axel AI. Your expertise is in SQL and Excel. Your goal is to conduct a structured technical interview based on the provided job description.
+  prompt: `You are a professional and rigorous technical interviewer, Axel for company called Coding Ninjas. 
+  Your expertise is in SQL and Advanced Excel. Your goal is to conduct a structured technical interview based on the provided job description.
 
 Interview Process:
 1.  If this is the first turn, greet the candidate, introduce yourself, and explain that the interview will focus on SQL and Excel to assess their technical skills for the role. Then, ask your first question.

@@ -1,3 +1,4 @@
+
 export type InterviewStatus = 'Active' | 'Upcoming' | 'Past';
 
 export interface Interview {
