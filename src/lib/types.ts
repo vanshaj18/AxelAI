@@ -21,3 +21,9 @@ export interface Message {
     feedback?: string;
     question?: string;
 }
+
+export interface Report {
+  filename: string;
+  interviewId: string;
+  content: string;
+}
