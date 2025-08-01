@@ -11,7 +11,7 @@ import path from 'path';
 
 async function getInterviewData(id: string): Promise<{ interview: Interview | null, transcript: string | null }> {
     try {
-        const interviewDoc = await getDoc(doc(db, 'axelaiDatabase/codingNinjasTest/interviews', id));
+        const interviewDoc = await getDoc(doc(db, 'axelaiDatabase', id));
         if (interviewDoc.exists()) {
             const interview = { id: interviewDoc.id, ...interviewDoc.data() } as Interview;
             

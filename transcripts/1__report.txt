@@ -1,0 +1,48 @@
+Feedback Report for Senior Analyst Interview
+=================================================
+Candidate: 
+Date: 8/10/2025
+Interview ID: 1
+-------------------------------------------------
+
+### Strengths ###
+Based on the provided transcript, it is impossible to identify any strengths. The candidate did not engage in any meaningful dialogue or demonstrate any skills relevant to the job description.
+
+-------------------------------------------------
+
+### Areas for Improvement ###
+The candidate demonstrated significant weaknesses in the following areas:
+
+*   **Professionalism:** The candidate's repeated refusal to adopt a professional tone and use of casual language ("Hey bro", "Na man", "Nah mann") indicates a lack of understanding of workplace etiquette.
+*   **Communication Skills:** The candidate's inability to communicate respectfully and engage in a professional conversation is a major concern.
+*   **Receptiveness to Feedback:** The candidate showed no willingness to adjust their behavior despite multiple requests from the interviewer. This suggests a lack of adaptability and respect for authority.
+
+-------------------------------------------------
+
+### Suggested Next Steps ###
+Given the candidate's lack of cooperation and unprofessional behavior, the primary focus should be on understanding and adhering to professional conduct in a workplace setting. This includes:
+
+*   **Basic Professionalism Training:** The candidate needs training on workplace etiquette, communication skills, and the importance of respectful interactions.
+*   **Mock Interviews (Behavioral Focus):** Practice answering common interview questions while maintaining a professional tone and demeanor. Focus on appropriate language and attitude.
+*   **Understanding Company Culture:** Researching and understanding the importance of aligning with a company's values and culture before applying or interviewing.
+
+-------------------------------------------------
+### Full Transcript ###
+-------------------------------------------------
+Interviewer: Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the Senior Analyst. Why don't we start with you telling me a bit about yourself and your experience?
+
+Candidate: Hey bro
+
+Interviewer: Before we dive deeper, could you please reintroduce yourself and briefly summarize your relevant experience for this Business Intelligence Analyst role at Coding Ninjas?
+
+Candidate: Na man, I like this tone. Keep things causal
+
+Interviewer: Please reintroduce yourself and briefly summarize your relevant experience for this Business Intelligence Analyst role at Coding Ninjas, maintaining a professional demeanor.
+
+Candidate: NO bro
+
+Interviewer: Let's maintain a professional tone for this interview, please. Could you please reintroduce yourself and briefly summarize your relevant experience for this Business Intelligence Analyst role at Coding Ninjas?
+
+Candidate: Nah mann
+
+Interviewer: It seems we're not on the same page regarding professionalism. I'll have to end the interview here. Thank you for your time.

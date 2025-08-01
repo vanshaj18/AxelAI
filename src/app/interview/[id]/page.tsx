@@ -17,7 +17,7 @@ async function getInterviewData(id: string): Promise<Interview | null> {
         // We can check if a transcript already exists in Firestore for this ID
         // and attach it if needed, but for starting a new interview, mock is sufficient.
         try {
-            const interviewDoc = await getDoc(doc(db, 'axelaiDatabase/codingNinjasTest/interviews', id));
+            const interviewDoc = await getDoc(doc(db, 'axelaiDatabase', id));
             if (interviewDoc.exists()) {
                 return { id: interviewDoc.id, ...interviewDoc.data() } as Interview;
             }

@@ -4,7 +4,8 @@ import path from 'path';
 import Link from 'next/link';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { FileText, Download } from 'lucide-react';
+import { FileText, Download, Eye } from 'lucide-react';
+import { ReportDownloader } from './_components/report-downloader';
 
 async function getReports() {
   const transcriptsDir = path.join(process.cwd(), 'transcripts');
@@ -47,7 +48,7 @@ export default async function ReportsPage() {
                 {reports.length > 0 ? (
                     <ul className="space-y-4">
                         {reports.map((report) => (
-                        <li key={report.filename} className="flex items-center justify-between p-4 rounded-lg bg-muted">
+                        <li key={report.filename} className="flex items-center justify-between p-4 rounded-lg bg-muted flex-wrap gap-4">
                             <div className="flex items-center gap-4">
                                 <FileText className="h-6 w-6 text-primary" />
                                 <div>
@@ -55,12 +56,15 @@ export default async function ReportsPage() {
                                     <p className="text-sm text-muted-foreground">Interview ID: {report.interviewId}</p>
                                 </div>
                             </div>
-                            <Link href={`/interview/${report.interviewId}/feedback`} passHref>
-                                <Button variant="outline">
-                                    <Download className="mr-2 h-4 w-4" />
-                                    View & Download PDF
-                                </Button>
-                            </Link>
+                            <div className="flex gap-2">
+                                <Link href={`/interview/${report.interviewId}/feedback`} passHref>
+                                    <Button variant="outline">
+                                        <Eye className="mr-2 h-4 w-4" />
+                                        View Feedback
+                                    </Button>
+                                </Link>
+                                <ReportDownloader filename={report.filename} />
+                            </div>
                         </li>
                         ))}
                     </ul>
