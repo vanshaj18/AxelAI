@@ -53,7 +53,8 @@ const prompt = ai.definePrompt({
 
   1.  **Strengths**: Identify specific moments where the candidate performed well. Quote or reference parts of their answers. What concepts did they grasp correctly? Where was their communication clear?
   2.  **Weaknesses**: Identify specific areas where the candidate struggled. Pinpoint any technical inaccuracies, logical errors, or communication issues. Be direct but professional.
-  3.  **Next Steps**: Based on their weaknesses, suggest a clear, actionable plan for improvement. Recommend specific topics to study, skills to practice (e.g., "Practice writing SQL JOINs with multiple conditions," or "Review Excel's VLOOKUP vs. INDEX/MATCH functions"), or resources to consult.
+  3.  **Overlap with Role**: Based on the transcript, strengths and weakness, identify the overlap of the candidate's skills with the job role. Quote the overlap with references from the transcript and job description.
+  4.  **Company Fit**: Based on the transcript, strengths and weakness, identify the candidate's soft skill fit with the overall company, traits like team player, hardworker, self initiator etc.
 
   Here is the data:
   - **Job Description**: {{{jobDescription}}}
