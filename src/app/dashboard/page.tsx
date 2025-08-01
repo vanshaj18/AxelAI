@@ -5,8 +5,8 @@ import { PlusCircle } from "lucide-react";
 import { InterviewCard } from "@/components/interview-card";
 import type { Interview } from "@/lib/types";
 import { useEffect, useState } from "react";
-import { mockInterviews } from "@/lib/mock-data";
 import { usePageLoader } from "@/hooks/use-page-loader";
+import { getInterviews } from "./actions";
 
 
 export default function DashboardPage() {
@@ -15,10 +15,23 @@ export default function DashboardPage() {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    // Using mock data for the dashboard
-    setInterviews(mockInterviews);
-    setIsLoading(false);
+    async function loadInterviews() {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const result = await getInterviews();
+        if (result.success && result.data) {
+          setInterviews(result.data);
+        } else {
+          setError(result.error || "Failed to load interviews.");
+        }
+      } catch (err) {
+        setError("An unexpected error occurred.");
+      } finally {
+        setIsLoading(false);
+      }
+    }
+    loadInterviews();
   }, []);
 
   const activeInterviews = interviews.filter(
