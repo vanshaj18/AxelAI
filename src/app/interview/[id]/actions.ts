@@ -36,19 +36,6 @@ export async function saveInterviewTranscript(interview: Interview, messages: Me
 
         await fs.writeFile(filePath, transcript, 'utf8');
         // --- END: Local file saving logic ---
-        
-        // Also update the status in Firestore so the dashboard reflects the change
-        const interviewRef = doc(db, 'axelaiDatabase/codingNinjasTest/interviews', interview.id);
-
-        // We only update status and add a reference to the transcript file path
-        // Note: The transcript itself is no longer in Firestore.
-        const updatedInterview: Interview = {
-            ...interview,
-            transcript: filePath, // Storing file path instead of full transcript
-            status: 'Past'
-        }
-
-        await setDoc(interviewRef, updatedInterview, { merge: true });
 
         return { success: true };
     } catch (error) {
