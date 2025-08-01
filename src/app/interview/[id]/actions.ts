@@ -21,7 +21,7 @@ export async function saveInterviewTranscript(interviewId: string, messages: Mes
     try {
         const transcript = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Interviewer'}: ${m.content}`).join('\n\n');
         
-        const interviewRef = doc(db, 'interviews', interviewId);
+        const interviewRef = doc(db, 'axelaiDatabase/codingNinjasTest/interviews', interviewId);
 
         await updateDoc(interviewRef, {
             transcript: transcript,

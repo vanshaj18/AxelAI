@@ -19,7 +19,7 @@ export default function DashboardPage() {
   useEffect(() => {
     const fetchInterviews = async () => {
       try {
-        const q = query(collection(db, "interviews"));
+        const q = query(collection(db, "axelaiDatabase/codingNinjasTest/interviews"));
         const querySnapshot = await getDocs(q);
         const fetchedInterviews = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Interview));
         setInterviews(fetchedInterviews);

@@ -9,7 +9,7 @@ import { AlertCircle } from 'lucide-react';
 
 async function getInterviewData(id: string): Promise<Interview | null> {
     try {
-        const interviewDoc = await getDoc(doc(db, 'interviews', id));
+        const interviewDoc = await getDoc(doc(db, 'axelaiDatabase/codingNinjasTest/interviews', id));
         if (interviewDoc.exists()) {
             return { id: interviewDoc.id, ...interviewDoc.data() } as Interview;
         }
