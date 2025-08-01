@@ -10,9 +10,9 @@ async function getReports() {
   const transcriptsDir = path.join(process.cwd(), 'transcripts');
   try {
     const files = await fs.readdir(transcriptsDir);
-    // We only want to list the .txt files which are the transcripts
+    // We only want to list the .txt files which are the transcripts/reports
     return files.filter(file => file.endsWith('.txt')).map(file => {
-        // Extract interview ID from filename, e.g., '1_Priya_Kapoor.txt' -> '1'
+        // Extract interview ID from filename, e.g., '1_Priya_Kapoor_report.txt' -> '1'
         const interviewId = file.split('_')[0];
         return {
             filename: file,
@@ -51,7 +51,7 @@ export default async function ReportsPage() {
                             <div className="flex items-center gap-4">
                                 <FileText className="h-6 w-6 text-primary" />
                                 <div>
-                                    <p className="font-medium">{report.filename.replace('.txt', '')}</p>
+                                    <p className="font-medium">{report.filename.replace('.txt', '').replace(/_/g, ' ')}</p>
                                     <p className="text-sm text-muted-foreground">Interview ID: {report.interviewId}</p>
                                 </div>
                             </div>
