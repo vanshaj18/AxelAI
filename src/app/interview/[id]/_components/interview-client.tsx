@@ -100,7 +100,7 @@ export function InterviewClient({ interview }: { interview: Interview }) {
           // Save transcript before redirecting
           const saveResult = await saveInterviewTranscript(interview, finalMessages);
           if (saveResult.success) {
-             router.push(`/interview/${interview.id}/feedback`);
+             router.push(`/reports`);
           } else {
              throw new Error(saveResult.error || "Could not save the interview transcript.");
           }
