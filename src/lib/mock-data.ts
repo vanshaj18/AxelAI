@@ -1,7 +1,6 @@
 import type { Interview } from './types';
 
-const JOB_DESCRIPTION_EXAMPLE = 
-  `
+const JOB_DESCRIPTION_EXAMPLE = `
   Analyst, Business Intelligence  
   Location: Gurgaon (Hybrid) | Team: Data & Strategy
 
@@ -35,7 +34,6 @@ const JOB_DESCRIPTION_EXAMPLE =
   - You’ll be joining a team that’s as collaborative as it is driven—we respect opinions, challenge ideas, and build together  
   - Every analyst is empowered to shape product and business outcomes—not just report on them  
   `;
-
 const CANDIDATE_RESUME_EXAMPLE = 
   `
     Priya Kapoor
@@ -79,6 +77,7 @@ const CANDIDATE_RESUME_EXAMPLE =
   `;
 
 
+
 export const mockInterviews: Interview[] = [
   {
     id: '1',
@@ -89,16 +88,13 @@ export const mockInterviews: Interview[] = [
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'Data-driven analyst role focused on surfacing insights to drive student engagement and platform growth.',
     candidateResume: CANDIDATE_RESUME_EXAMPLE,
-    transcript: `Interviewer: Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the Senior Analyst role. Why don't we start with you telling me a bit about yourself and your experience?
-    
-    Candidate: Hi Axel, thanks for having me. I'm Priya Kapoor, a Senior Business Analyst with over 7 years of experience in fintech. I specialize in turning data into strategic insights, particularly around user behavior and retention. At NeoBank, I led a project that increased customer retention by 20% by analyzing user segmentation. I'm proficient in SQL, Power BI, and Python.`
   },
   {
     id: '2',
     role: 'Business Analyst',
     company: 'Coding Ninjas',
     date: '2025-08-20T14:00:00Z',
-    status: 'Active',
+    status: 'Past',
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'Seeking an experienced business analyst to build dashboards and analyze A/B experiments.',
     candidateResume: CANDIDATE_RESUME_EXAMPLE,
@@ -112,16 +108,13 @@ export const mockInterviews: Interview[] = [
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'Entry-level analyst to monitor data pipelines and work with engineering to improve data integrity.',
     candidateResume: CANDIDATE_RESUME_EXAMPLE,
-    transcript: `Interviewer: Can you explain the difference between UNION and UNION ALL in SQL?
-
-    Candidate: Both are used to combine result sets from two or more SELECT statements. UNION removes duplicate records, whereas UNION ALL includes all records, including duplicates. So, UNION ALL is faster.`
   },
   {
     id: '4',
     role: 'Product Analyst',
     company: 'Coding Ninjas',
     date: '2025-09-05T10:00:00Z',
-    status: 'Active',
+    status: 'Past',
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'Product-focused analyst to support product teams with data-driven experimentation.',
     candidateResume: CANDIDATE_RESUME_EXAMPLE,
@@ -131,7 +124,7 @@ export const mockInterviews: Interview[] = [
     role: 'Business Intelligence Analyst',
     company: 'Coding Ninjas',
     date: '2025-09-15T15:30:00Z',
-    status: 'Active',
+    status: 'Past',
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'BI Analyst to translate complex data into clear business insights for strategic planning.',
     candidateResume: CANDIDATE_RESUME_EXAMPLE,

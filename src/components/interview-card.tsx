@@ -37,9 +37,9 @@ export function InterviewCard({ interview }: { interview: Interview }) {
   const getButtonText = (status: Interview['status']) => {
     switch (status) {
         case 'Active':
-            return 'Continue Interview';
+            return 'Begin Interview';
         case 'Upcoming':
-            return 'Start Interview';
+            return 'Upcoming Interview';
         case 'Past':
             return 'View Feedback';
     }

@@ -5,6 +5,8 @@ import { simulateAiInterviewer, SimulateAiInterviewerInput } from "@/ai/flows/si
 import { db } from "@/lib/firebase";
 import { doc, setDoc } from "firebase/firestore";
 import type { Message, Interview } from "@/lib/types";
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export async function handleUserResponse(input: SimulateAiInterviewerInput) {
     try {
@@ -21,15 +23,32 @@ export async function saveInterviewTranscript(interview: Interview, messages: Me
     try {
         const transcript = messages.map(m => `${m.role === 'user' ? 'Candidate' : 'Interviewer'}: ${m.content}`).join('\n\n');
         
+        // --- START: Local file saving logic ---
+        const transcriptsDir = path.join(process.cwd(), 'transcripts');
+        await fs.mkdir(transcriptsDir, { recursive: true });
+
+        // A simple way to get a candidate name from the resume string for the filename.
+        const candidateNameMatch = interview.candidateResume.match(/^(.*)/);
+        const candidateName = candidateNameMatch ? candidateNameMatch[1].trim().replace(/\s+/g, '_') : 'Unknown_Candidate';
+
+        const fileName = `${interview.id}_${candidateName}.txt`;
+        const filePath = path.join(transcriptsDir, fileName);
+
+        await fs.writeFile(filePath, transcript, 'utf8');
+        // --- END: Local file saving logic ---
+        
+        // Also update the status in Firestore so the dashboard reflects the change
         const interviewRef = doc(db, 'axelaiDatabase/codingNinjasTest/interviews', interview.id);
 
+        // We only update status and add a reference to the transcript file path
+        // Note: The transcript itself is no longer in Firestore.
         const updatedInterview: Interview = {
             ...interview,
-            transcript: transcript,
+            transcript: filePath, // Storing file path instead of full transcript
             status: 'Past'
         }
 
-        await setDoc(interviewRef, updatedInterview);
+        await setDoc(interviewRef, updatedInterview, { merge: true });
 
         return { success: true };
     } catch (error) {
