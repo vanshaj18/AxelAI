@@ -43,7 +43,6 @@ export default function LoginPage() {
         description: "You've been successfully logged in.",
       });
       router.push('/dashboard');
-      router.refresh(); 
     } else {
       toast({
         variant: 'destructive',
