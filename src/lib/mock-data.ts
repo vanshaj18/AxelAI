@@ -231,17 +231,20 @@ export const mockInterviews: Interview[] = [
   {
     id: '1',
     role: 'Senior Analyst',
-    // company: 'Coding Ninjas',
+    company: 'Coding Ninjas',
     date: '2025-08-10T14:00:00Z',
     status: 'Active',
     jobDescription: JOB_DESCRIPTION_EXAMPLE,
     shortDescription: 'Coding Ninjas is looking for a sharp, data-driven Analyst to join our Business Intelligence team. In this role, youll work at the intersection of data, strategy, and execution—helping product, marketing, and operations teams make smarter decisions faster. Youll play a key part in surfacing insights that drive student engagement, course performance, and platform growth.' ,
     candidateResume: CANDIDATE_RESUME_EXAMPLE[0],
+    transcript: `Interviewer: Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the Senior Analyst role. Why don't we start with you telling me a bit about yourself and your experience?
+    
+    Candidate: Hi Axel, thanks for having me. I'm Priya Kapoor, a Senior Business Analyst with over 7 years of experience in fintech. I specialize in turning data into strategic insights, particularly around user behavior and retention. At NeoBank, I led a project that increased customer retention by 20% by analyzing user segmentation. I'm proficient in SQL, Power BI, and Python.`
   },
   {
     id: '2',
     role: 'Business Analyst',
-    // company: 'Coding Ninjas',
+    company: 'Coding Ninjas',
     date: '2025-08-20T14:00:00Z',
     status: 'Upcoming',
     jobDescription: 'Seeking an experienced business analyst for our business roles ...',
@@ -251,17 +254,20 @@ export const mockInterviews: Interview[] = [
   {
     id: '3',
     role: 'Junior Analyst',
-    // company: 'Coding Ninjas',
+    company: 'Coding Ninjas',
     date: '2024-08-22T11:30:00Z',
     status: 'Past',
     jobDescription: 'Looking for an analyst who could deliver value to our team and help...',
     shortDescription: 'Looking for an analyst who could deliver value to our team and help...',
     candidateResume: 'Priya Kapoor resume...',
+    transcript: `Interviewer: Can you explain the difference between UNION and UNION ALL in SQL?
+
+    Candidate: Both are used to combine result sets from two or more SELECT statements. UNION removes duplicate records, whereas UNION ALL includes all records, including duplicates. So, UNION ALL is faster.`
   },
   {
     id: '4',
     role: 'Product Analyst',
-    // company: 'Coding Ninjas',
+    company: 'Coding Ninjas',
     date: '2020-05-18T10:00:00Z',
     status: 'Past',
     jobDescription: 'We are seeking a product analyst with a strong understanding of user behavior data and experience supporting product teams through data-driven experimentation.',
@@ -271,7 +277,7 @@ export const mockInterviews: Interview[] = [
   {
     id: '5',
     role: 'Business Intelligence Analyst',
-    // company: 'Coding Ninjas',
+    company: 'Coding Ninjas',
     date: '2019-11-07T15:30:00Z',
     status: 'Past',
     jobDescription: 'Looking for a BI Analyst who can translate complex data into clear business insights to support strategic planning and operational improvements.',

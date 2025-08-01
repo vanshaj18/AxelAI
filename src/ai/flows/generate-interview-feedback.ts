@@ -1,5 +1,3 @@
-// This file is machine-generated - edit at your own risk!
-
 'use server';
 
 /**
@@ -16,7 +14,7 @@ import {z} from 'genkit';
 const GenerateInterviewFeedbackInputSchema = z.object({
   interviewTranscript: z
     .string()
-    .describe('The transcript of the interview to generate feedback for.'),
+    .describe('The full transcript of the interview to generate feedback for.'),
   jobDescription: z.string().describe('The job description for the role.'),
 });
 
@@ -25,11 +23,11 @@ export type GenerateInterviewFeedbackInput = z.infer<
 >;
 
 const GenerateInterviewFeedbackOutputSchema = z.object({
-  strengths: z.string().describe('The strengths of the candidate.'),
-  weaknesses: z.string().describe('The weaknesses of the candidate.'),
+  strengths: z.string().describe("The candidate's key strengths, with examples from the transcript."),
+  weaknesses: z.string().describe("The candidate's key weaknesses or areas for improvement, with examples."),
   nextSteps: z
     .string()
-    .describe('The next steps the candidate should take to improve.'),
+    .describe('Actionable next steps and specific training areas the candidate should focus on to improve.'),
 });
 
 export type GenerateInterviewFeedbackOutput = z.infer<
@@ -47,14 +45,20 @@ const prompt = ai.definePrompt({
   input: {schema: GenerateInterviewFeedbackInputSchema},
   output: {schema: GenerateInterviewFeedbackOutputSchema},
   prompt: `
-  You are an AI-powered interview feedback generator.
+  You are an expert AI career coach, providing detailed feedback to a job candidate after a practice interview.
 
-  You will receive an interview transcript and a job description. You will use this information to generate feedback for the candidate.
+  You will be given the full transcript of a technical interview and the original job description. Your task is to provide a comprehensive, fair, and constructive evaluation.
 
-  The feedback should include the candidate's strengths, weaknesses, and if they are a good fit for the position.
+  Please analyze the transcript in the context of the job description and generate the following:
 
-  Interview Transcript: {{{interviewTranscript}}}
-  Job Description: {{{jobDescription}}}`,
+  1.  **Strengths**: Identify specific moments where the candidate performed well. Quote or reference parts of their answers. What concepts did they grasp correctly? Where was their communication clear?
+  2.  **Weaknesses**: Identify specific areas where the candidate struggled. Pinpoint any technical inaccuracies, logical errors, or communication issues. Be direct but professional.
+  3.  **Next Steps**: Based on their weaknesses, suggest a clear, actionable plan for improvement. Recommend specific topics to study, skills to practice (e.g., "Practice writing SQL JOINs with multiple conditions," or "Review Excel's VLOOKUP vs. INDEX/MATCH functions"), or resources to consult.
+
+  Here is the data:
+  - **Job Description**: {{{jobDescription}}}
+  - **Interview Transcript**: {{{interviewTranscript}}}
+  `,
 });
 
 const generateInterviewFeedbackFlow = ai.defineFlow(

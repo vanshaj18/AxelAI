@@ -1,26 +1,44 @@
-import { mockInterviews } from '@/lib/mock-data';
+import { db } from '@/lib/firebase';
+import { doc, getDoc } from 'firebase/firestore';
 import { FeedbackClient } from './_components/feedback-client';
 import { notFound } from 'next/navigation';
+import type { Interview } from '@/lib/types';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { AlertCircle } from 'lucide-react';
 
-// In a real app, you would fetch the interview transcript from your database.
-// For this mock, we'll just pass the interview details.
-const MOCK_TRANSCRIPT = `
-Interviewer: Hello, I'm your AI interviewer from Axel AI. I'm here to help you practice for your upcoming interview. To start, can you please tell me a bit about yourself and your experience?
+async function getInterviewData(id: string): Promise<Interview | null> {
+    try {
+        const interviewDoc = await getDoc(doc(db, 'interviews', id));
+        if (interviewDoc.exists()) {
+            return { id: interviewDoc.id, ...interviewDoc.data() } as Interview;
+        }
+        return null;
+    } catch (error) {
+        console.error("Error fetching interview data:", error);
+        return null;
+    }
+}
 
-Candidate: Sure! I'm Jane Doe, a software engineer with 5 years of experience in front-end development, specializing in React.js and modern JavaScript frameworks. I'm passionate about building intuitive and performant user interfaces. In my last role at TechCorp, I led the development of a new customer-facing dashboard which improved user engagement by 20%.
-
-Interviewer: That's great to hear. Can you describe a challenging technical problem you faced on that project and how you solved it?
-
-Candidate: We had a major performance bottleneck in our data visualization components. I used React's profiler to identify the issue, which was excessive re-rendering. I solved it by implementing memoization with React.memo and useMemo, and by virtualizing our large lists with react-window. This cut down render times by more than 50%.
-`;
-
-
-export default function FeedbackPage({ params }: { params: { id: string } }) {
-  const interview = mockInterviews.find((i) => i.id === params.id);
+export default async function FeedbackPage({ params }: { params: { id: string } }) {
+  const interview = await getInterviewData(params.id);
 
   if (!interview) {
     notFound();
   }
 
-  return <FeedbackClient interview={interview} transcript={MOCK_TRANSCRIPT} />;
+  if (!interview.transcript) {
+    return (
+        <div className="flex items-center justify-center h-full">
+             <Alert variant="destructive" className="max-w-lg">
+                <AlertCircle className="h-4 w-4" />
+                <AlertTitle>Transcript Not Found</AlertTitle>
+                <AlertDescription>
+                    We could not find a transcript for this interview session. Feedback cannot be generated.
+                </AlertDescription>
+            </Alert>
+        </div>
+    )
+  }
+
+  return <FeedbackClient interview={interview} transcript={interview.transcript} />;
 }

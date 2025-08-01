@@ -9,6 +9,7 @@ export interface Interview {
   jobDescription: string;
   shortDescription: string;
   candidateResume: string;
+  transcript?: string;
 }
 
 export type MessageRole = 'assistant' | 'user';

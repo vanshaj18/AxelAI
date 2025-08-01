@@ -10,7 +10,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import type { Interview, Message } from '@/lib/types';
 import { Bot, User, CornerDownLeft, Loader2, Sparkles } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { handleUserResponse } from '../actions';
+import { handleUserResponse, saveInterviewTranscript } from '../actions';
 import { useToast } from '@/hooks/use-toast';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
@@ -39,7 +39,8 @@ export function InterviewClient({ interview }: { interview: Interview }) {
     if (!input.trim() || isLoading) return;
 
     const userMessage: Message = { role: 'user', content: input };
-    setMessages((prev) => [...prev, userMessage]);
+    const newMessages = [...messages, userMessage];
+    setMessages(newMessages);
     setInput('');
     setIsLoading(true);
 
@@ -62,24 +63,31 @@ export function InterviewClient({ interview }: { interview: Interview }) {
         const { nextQuestion, feedback, isInterviewFinished } = res.data;
         
         setMessages((prev) => {
-            const newMessages = [...prev];
-            const lastMessage = newMessages[newMessages.length - 1];
+            const updatedMessages = [...prev];
+            const lastMessage = updatedMessages[updatedMessages.length - 1];
             if(lastMessage.role === 'user') {
                 lastMessage.feedback = feedback;
             }
-            return newMessages;
+            return updatedMessages;
         });
-
+        
+        const assistantMessage: Message = { role: 'assistant', content: nextQuestion, question: nextQuestion };
+        const finalMessages = [...newMessages, assistantMessage];
+        
         if (isInterviewFinished) {
           toast({
             title: "Interview Complete!",
-            description: "Generating your feedback report...",
+            description: "Saving transcript and generating feedback...",
           });
-          // Ideally, here you'd save the full transcript before redirecting.
-          // For now, we'll pass it in state if possible, or refetch on the feedback page.
-          router.push(`/interview/${interview.id}/feedback`);
+
+          // Save transcript before redirecting
+          const saveResult = await saveInterviewTranscript(interview.id, finalMessages);
+          if (saveResult.success) {
+             router.push(`/interview/${interview.id}/feedback`);
+          } else {
+             throw new Error(saveResult.error || "Could not save the interview transcript.");
+          }
         } else {
-          const assistantMessage: Message = { role: 'assistant', content: nextQuestion, question: nextQuestion };
           setMessages((prev) => [...prev, assistantMessage]);
         }
       } else {
