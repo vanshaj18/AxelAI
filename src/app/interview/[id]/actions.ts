@@ -60,11 +60,6 @@ export async function saveInterviewTranscript(
 
         ### Suggested Next Steps ###
         ${feedbackOutput.nextSteps}
-
-        -------------------------------------------------
-        ### Full Transcript ###
-        -------------------------------------------------
-        ${transcript}
     `;
 
     const transcriptsDir = path.join(process.cwd(), 'transcripts');
