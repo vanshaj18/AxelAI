@@ -12,14 +12,17 @@ import {
 } from './ui/card';
 import { Badge } from './ui/badge';
 import { Button } from './ui/button';
-import { ArrowRight, Calendar, Briefcase } from 'lucide-react';
+import { ArrowRight, Calendar, Briefcase, Loader2 } from 'lucide-react';
 import type { Interview } from '@/lib/types';
 import { format } from 'date-fns';
 import { useState } from 'react';
 import { usePageLoader } from '@/hooks/use-page-loader';
+import { useRouter } from 'next/navigation';
 
 export function InterviewCard({ interview }: { interview: Interview }) {
   const { showLoader } = usePageLoader();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
   
   const getBadgeVariant = (status: Interview['status']) => {
     switch (status) {
@@ -54,6 +57,18 @@ export function InterviewCard({ interview }: { interview: Interview }) {
     }
   }
 
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (interview.status === 'Active') {
+      e.preventDefault();
+      setIsLoading(true);
+      showLoader();
+      router.push(getLink(interview.status, interview.id));
+    } else {
+      showLoader();
+    }
+  };
+
+
   return (
     <Card className="flex flex-col transition-all hover:shadow-lg hover:shadow-primary/10">
       <CardHeader>
@@ -75,10 +90,16 @@ export function InterviewCard({ interview }: { interview: Interview }) {
         </div>
       </CardContent>
       <CardFooter>
-        <Link href={getLink(interview.status, interview.id)} className="w-full" onClick={showLoader}>
-          <Button variant="outline" className="w-full">
-            {getButtonText(interview.status)}
-            <ArrowRight className="ml-2" />
+        <Link href={getLink(interview.status, interview.id)} className="w-full" passHref>
+          <Button 
+            variant="outline" 
+            className="w-full" 
+            onClick={handleClick}
+            disabled={isLoading}
+          >
+            {isLoading ? <Loader2 className="mr-2 animate-spin" /> : null}
+            {isLoading ? "Starting..." : getButtonText(interview.status)}
+            {!isLoading && <ArrowRight className="ml-2" />}
           </Button>
         </Link>
       </CardFooter>
