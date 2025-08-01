@@ -1,0 +1,475 @@
+Feedback Report for Junior Analyst Interview
+=================================================
+Candidate: 
+Date: 8/22/2025
+Interview ID: 3
+-------------------------------------------------
+
+### Strengths ###
+Priya demonstrates a basic understanding of SQL syntax, as evidenced by her initial attempt at the query to list customers with more than 5 orders. "SELECT c.CustomerName, COUNT(o.OrderID) AS OrderCount FROM Customers c INNER JOIN Orders o ON c.CustomerID = o.CustomerID GROUP BY c.CustomerID, c.CustomerName HAVING COUNT(o.OrderID) > 5;" This shows she grasps the fundamentals of joins, grouping, and aggregation. She also correctly articulated the difference between WHERE and HAVING clauses: "The `WHERE` clause filters rows before grouping, while the `HAVING` clause filters groups after aggregation. Use `WHERE` for raw row conditions and `HAVING` for aggregate conditions like `SUM()` or `COUNT()`."
+
+-------------------------------------------------
+
+### Areas for Improvement ###
+Priya struggled significantly with both SQL and Excel. She couldn't optimize SQL queries, explain indexing, or describe different JOIN types in detail. She repeatedly stated she had "not used" key Excel functions like VLOOKUP and INDEX/MATCH. When asked about query optimization, she responded, "Not sure." She also struggled to recall specific instances where she had used SQL, even for basic tasks, stating, "I cannot recall at this time." Her explanation of her previous experience at NeoBank Technologies was vague and lacked concrete details: "We, uh, used SQL mostly—I think—with some dashboards, maybe Power BI or Tableau... not entirely sure which, but it was a visual tool." She also demonstrated a lack of understanding of primary keys, stating "no" when asked to explain what they are. Many questions were simply answered with "Not sure."
+
+-------------------------------------------------
+
+### Suggested Next Steps ###
+Priya needs to significantly improve her SQL and Excel skills. She should start with basic SQL concepts like primary keys, JOIN operations, and aggregate functions. For Excel, she needs to learn VLOOKUP, INDEX/MATCH, and pivot tables. Practicing with online tutorials and datasets is crucial. She should also work on articulating her past experiences more clearly.
+
+-------------------------------------------------
+### Full Transcript ###
+-------------------------------------------------
+Interviewer: Hello, I'm Axel from Coding Ninjas. I will be conducting your interview for the Junior Analyst. Why don't we start with you telling me a bit about yourself and your experience?
+
+Candidate: Hi Axel, I'm Priya. I have 2 years of experience working as a data analyst, primarily using Excel and SQL to generate insights and reports. I've worked on automating dashboards and optimizing queries for faster decision-making.
+
+
+
+
+
+
+
+
+Ask ChatGPT
+
+
+Interviewer: Great. Let's move on to SQL. Can you describe a situation where you had to optimize a slow-running SQL query, and what steps did you take to improve its performance?
+
+Candidate: Yes, I once had a report query that was taking over a minute to run. I analyzed the execution plan, added indexes on frequently filtered columns, and rewrote subqueries using joins and CTEs. The query time dropped to under 5 seconds.
+
+Interviewer: Can you provide a specific example of a slow-running query and show the query before and after optimization? Please include the table schemas and the specific indexes you added.
+
+Candidate: I have not done anything related to optimization
+
+Interviewer: Can you describe some common techniques used for SQL query optimization, even if you haven't implemented them yourself? For example, how indexes work or the impact of different types of JOINs on performance.
+
+Candidate: Not sure
+
+Interviewer: Could you describe a situation where query optimization would be particularly critical, and what the potential impact of poorly optimized queries might be?
+
+Candidate: I think it might help in reteriving faster
+
+Interviewer: Can you elaborate on a specific scenario where query optimization would be particularly critical, and what the potential impact of poorly optimized queries might be on system performance or business operations?
+
+Candidate: not sure
+
+Interviewer: Could you perhaps describe a situation where query optimization becomes important?
+
+Candidate: Not sure
+
+Interviewer: Let's try another question related to SQL. Can you explain the difference between WHERE and HAVING clauses in SQL, and when would you use each?
+
+Candidate: The `WHERE` clause filters rows before grouping, while the `HAVING` clause filters groups after aggregation. Use `WHERE` for raw row conditions and `HAVING` for aggregate conditions like `SUM()` or `COUNT()`.
+
+
+Interviewer: Okay, let's move on to a more complex SQL scenario. Imagine you have two tables: 'Orders' (OrderID, CustomerID, OrderDate) and 'Customers' (CustomerID, CustomerName, City). Write a SQL query to list all customers who have placed more than 5 orders, along with their names and the number of orders they've placed. Ensure your query is optimized for performance.
+
+Candidate: SELECT 
+  c.CustomerName, 
+  COUNT(o.OrderID) AS OrderCount
+FROM 
+  Customers c
+INNER JOIN 
+  Orders o ON c.CustomerID = o.CustomerID
+GROUP BY 
+  c.CustomerID, c.CustomerName
+HAVING 
+  COUNT(o.OrderID) > 5;
+
+
+Interviewer: Your SQL query is a good starting point and correctly identifies the customers who have placed more than 5 orders. However, the question specifically asked for an optimized query. Can you suggest any modifications to improve the performance of this query, especially when dealing with very large datasets?
+
+Candidate: not sure
+
+Interviewer: Let's move on to Excel. Could you explain the difference between VLOOKUP and INDEX/MATCH, and when you might prefer one over the other?
+
+Candidate: I have not worked much with these functions
+
+Interviewer: Given that, let's try a more basic Excel question. Can you describe a situation where you've used Excel to analyze data, even if it didn't involve VLOOKUP or INDEX/MATCH? What formulas or features did you use, and what insights did you gain?
+
+Candidate: Sum, Aggegrate, average, percentage, standard deviation
+
+Interviewer: Let's try a different approach. Could you walk me through how you would use Excel to calculate the monthly recurring revenue (MRR) from a dataset of customer subscriptions, including handling different subscription start dates and cancellation dates?
+
+Candidate:  I would:
+
+Create columns for Start Date, Cancel Date, and Monthly Fee.
+
+Use a helper table with a list of months.
+
+For each month, use a formula like =IF(AND(Month>=Start, OR(Cancel="", Cancel>Month)), Fee, 0) to calculate MRR per customer.
+
+Sum across customers for each month to get total MRR.
+
+Interviewer: To elaborate on the previous question: How would you handle subscriptions that start or end mid-month? Can you provide a more detailed formula that includes calculating the prorated MRR for the first and last months of the subscription?
+
+Candidate: not sure
+
+Interviewer: Let's try a different angle. Can you describe the steps you *would* take to calculate the prorated MRR for a subscription's first or last month? Think about what information you would need and how you would use that information to arrive at the correct MRR figure.
+
+Candidate: To calculate prorated MRR:
+
+1. **Required Info**: Subscription start date, cancel date (if any), monthly fee, and billing cycle.
+2. **Steps**:
+
+   * For the **first month**, calculate days active = days from start date to month-end, then prorate:
+     `Prorated MRR = (days active / total days in month) × monthly fee`.
+   * For the **last month**, calculate days active from month-start to cancel date and apply the same logic.
+   * Use `EOMONTH()` and `DAY()` functions in Excel to help calculate days.
+
+
+Interviewer: Okay, that makes sense. Let's try a different angle. Suppose you have a table named 'subscriptions' with columns 'subscription_id', 'start_date', 'end_date', and 'monthly_fee'. Can you provide the SQL query that calculates the prorated MRR for the first month of each subscription, assuming the billing cycle always starts on the subscription start date?
+
+Candidate: SELECT
+  subscription_id,
+  start_date,
+  monthly_fee,
+  DATE_TRUNC('month', start_date) AS month_start,
+  DATE_TRUNC('month', start_date) + INTERVAL '1 month' - INTERVAL '1 day' AS month_end,
+  EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - INTERVAL '1 day')) AS days_in_month,
+  EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - start_date)) + 1 AS active_days_in_month,
+  ROUND((monthly_fee * (EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - start_date) + 1)) 
+    / EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - INTERVAL '1 day'))), 2) AS prorated_mrr
+FROM subscriptions;
+
+
+Interviewer: Could you simplify the date calculations and correct the logic for 'active_days_in_month'? Take another look at the formula to avoid off-by-one errors.
+
+Candidate: SELECT
+  subscription_id,
+  start_date,
+  monthly_fee,
+  DATE_TRUNC('month', start_date) AS month_start,
+  (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - INTERVAL '1 day') AS month_end,
+  EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month' - INTERVAL '1 day')) AS days_in_month,
+  EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month') - start_date) AS active_days_in_month,
+  ROUND(monthly_fee * 
+        (EXTRACT(DAY FROM (DATE_TRUNC('month', start_date) + INTERVAL '1 month') - start_date)::numeric / 
+         EXTRACT(DAY FROM (DATE_TRUNC('month', st_
+
+
+Interviewer: Could you simplify the date calculations and correct the logic for 'active_days_in_month'? Take another look at the formula to avoid off-by-one errors.
+
+Candidate: not sure
+
+Interviewer: Let's switch gears to Excel. Can you describe a situation where you used INDEX and MATCH instead of VLOOKUP, and why you chose that approach?
+
+Candidate: not used
+
+Interviewer: Since you have not used INDEX and MATCH , are you familiar with the *concept* of using INDEX and MATCH together, even if you haven't implemented it yourself? Perhaps you've seen it used or understand how it *could* be used?
+
+Candidate: no
+
+Interviewer: Let's switch gears to SQL. Can you describe a situation where you would use a self-join in SQL and provide a simple example of the query?
+
+Candidate: never used
+
+Interviewer: Could you describe in general terms, what a JOIN operation does in SQL and perhaps provide a simple example using any type of JOIN that you are familiar with?
+
+Candidate: it joins two table based on the condition given
+
+Interviewer: Could you describe in general terms, what a JOIN operation does in SQL and perhaps provide a simple example using any type of JOIN that you are familiar with?
+
+Candidate: For example, if we have a Customers table and an Orders table, we can use an INNER JOIN to get a list of customers along with the orders they’ve placed. The join is typically done on a common key — in this case, CustomerID.
+
+Here’s a simple example:
+
+sql
+Copy
+Edit
+SELECT Customers.CustomerName, Orders.OrderID, Orders.OrderDate
+FROM Customers
+INNER JOIN Orders ON Customers.CustomerID = Orders.CustomerID;
+This query will return only those customers who have placed at least one order, along with their order details. The INNER JOIN ensures that only matching records from both tables are included in the result.
+
+
+
+Interviewer: Could you explain other types of JOINs (e.g., LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN) and when you might use them?
+
+Candidate: Left keeps all the left side rows, while right keeps all the right side rows, outer keep the full rows. The non overlapping rows gets NULL as value
+
+Interviewer: Could you provide a specific example of when you would use a LEFT JOIN versus an INNER JOIN in a real-world scenario, perhaps related to analyzing student data or course performance?
+
+Candidate: You have a Students table and a Grades table. If you want to list only those students who have received grades, you’d use an INNER JOIN. But if you want to list all students, including those who haven't received any grades yet (maybe they enrolled recently), you'd use a LEFT JOIN.
+
+Interviewer: Let's test your SQL skills with a practical problem. Imagine you have two tables: 'Students' (student_id, name, enrollment_date) and 'CourseEnrollments' (enrollment_id, student_id, course_id, grade). Write a SQL query to list all students and their grades for a specific course (say, course_id = 'CN101'). If a student is enrolled in the course but doesn't have a grade yet, display 'In Progress' as the grade. If they are not enrolled, display 'Not Enrolled'.
+
+Candidate: can you give the tabular details
+
+Interviewer: Okay, with that information, please provide the SQL query to list all students and their grades for course 'CN101'. Remember to display 'In Progress' for students enrolled without a grade and 'Not Enrolled' for those not enrolled.
+
+Candidate: To achieve this, we need to handle three categories of students:
+
+Students who have a grade in course 'CN101'
+
+Students who are enrolled in course 'CN101' but don't have a grade yet
+
+Students who are not enrolled in course 'CN101' at all
+
+We can approach this by:
+
+Starting with the full list of students
+
+LEFT JOINing to an Enrollments or Grades table (assuming it stores enrollments and grades)
+
+Using conditional logic (CASE) to categorize the status
+
+
+
+Interviewer: Could you please write the complete SQL query, including the table and column names, to achieve the desired result? This will help me assess your ability to translate the approach into a working solution.
+
+Candidate: SELECT 
+    s.StudentID,
+    s.StudentName,
+    CASE 
+        WHEN e.CourseID IS NULL THEN 'Not Enrolled'
+        WHEN g.Grade IS NULL THEN 'In Progress'
+        ELSE g.Grade
+    END AS GradeStatus
+FROM Students s
+LEFT JOIN Enrollments e ON s.StudentID = e.StudentID AND e.CourseID = 'CN101'
+LEFT JOIN Grades g ON e.StudentID = g.StudentID AND e.CourseID = g.CourseID AND g.CourseID = 'CN101';
+
+
+Interviewer: The query only returns data for CourseID CN101. If we want to see data for other courses, it needs to be changed. Also, consider what would happen if we need the course name in the result? Can you please reconsider your query?
+
+Candidate: I am not sure at this point
+
+Interviewer: Let's switch gears slightly. Can you describe a scenario where you would use a window function in SQL and how it would improve your analysis?
+
+Candidate: I have not used window functions
+
+Interviewer: Okay, I understand. Since you haven't used window functions before, let's take a step back. Could you explain your understanding of aggregate functions in SQL, and how they differ from what window functions are designed to do?
+
+Candidate: not sure
+
+Interviewer: Let's revisit the basics of aggregate functions such as SUM, AVG, COUNT, MIN, and MAX, and how they're used with GROUP BY. Can you describe a scenario where you might use the COUNT aggregate function and what it would return?
+
+Candidate: A common scenario where I’ve used the COUNT function was when analyzing student engagement in an online course platform.
+
+For instance, suppose we have a table called Enrollments with columns like StudentID, CourseID, and EnrollmentDate. If we want to find out how many students are enrolled in each course, we would use the COUNT function along with GROUP BY
+
+Interviewer: Can you provide the SQL query you would use to determine how many students are enrolled in each course, using the Enrollments table you described?
+
+Candidate: SELECT 
+    CourseID,
+    COUNT(StudentID) AS NumberOfStudents
+FROM Enrollments
+GROUP BY CourseID;
+
+
+Interviewer: Now, let's move on to a slightly more complex scenario. Suppose you have two tables: 'Students' (StudentID, Name) and 'Enrollments' (EnrollmentID, StudentID, CourseID, EnrollmentDate). Can you write an SQL query to list all courses with more than 5 students enrolled, displaying the CourseID and the course name?
+
+Candidate: SELECT 
+    c.CourseID,
+    c.CourseName,
+    COUNT(e.StudentID) AS NumberOfStudents
+FROM Enrollments e
+JOIN Courses c ON e.CourseID = c.CourseID
+GROUP BY c.CourseID, c.CourseName
+HAVING COUNT(e.StudentID) > 5;
+
+
+Interviewer: Could you please clarify the table structure, specifically regarding the CourseName, and revise your query to incorporate the Students table to accurately count enrolled students?
+
+Candidate: I am not sure about it
+
+Interviewer: Let's switch gears to Excel. Could you describe a situation where you used VLOOKUP or INDEX/MATCH to solve a problem, and explain why you chose that particular function?
+
+Candidate: I have not used it
+
+Interviewer: You mentioned you haven't used VLOOKUP or INDEX/MATCH. These are commonly used functions in Excel for data analysis. Can you tell me about your experience with Excel in general and any other functions you have used?
+
+Candidate: My experience with excel in my previous work is limited.
+
+Interviewer: Can you elaborate on which aspects of Excel you are familiar with? Perhaps you've used it for basic data entry, sorting, or simple calculations? Any detail would be helpful.
+
+Candidate: basic data entry and sorting
+
+Interviewer: Could you please elaborate on any experience you might have with these more advanced Excel features?
+
+Candidate: limited
+
+Interviewer: Can you describe the extent of your knowledge regarding advanced Excel features such as VLOOKUP, INDEX/MATCH, pivot tables, or macros?
+
+Candidate: never used
+
+Interviewer: Given your experience with SQL and Power BI, could you describe a situation where you used both tools together to solve a business problem?
+
+Candidate: I created dashboard with PowerBI from the data from SQL
+
+Interviewer: Can you elaborate on the business problem you were trying to solve, the SQL queries you used to extract and transform the data, and how you used Power BI to visualize the data and derive insights?
+
+Candidate: I cannot recall right now
+
+Interviewer: Okay. Let's switch gears a bit. Can you describe a situation where you had to optimize a slow-running SQL query? What steps did you take to identify the bottleneck and improve its performance?
+
+Candidate: never encountered
+
+Interviewer: Please describe a situation where you had to troubleshoot a performance issue related to data retrieval, even if it wasn't specifically SQL query optimization? This could involve indexing, data types, or other database-related concepts.
+
+Candidate: Never encountered
+
+Interviewer: Priya, can you describe, in general terms, the steps you *would* take to troubleshoot a slow SQL query or data retrieval process, even if you haven't done it hands-on?
+
+Candidate: I might look into the time consumption to get the data and consult how the query is peforming and disucss with senior
+
+Interviewer: Priya, can you elaborate on the specific steps or tools you would use to investigate why a SQL query is slow? For example, what metrics would you examine, or what tools might you use to profile the query?
+
+Candidate: not sure
+
+Interviewer: Could you describe a situation where you had to use window functions in SQL, and what problem they helped you solve?
+
+Candidate: Not sure
+
+Interviewer: Take a moment to think. Perhaps you've used ranking functions or calculated running totals in SQL? These often utilize windowing concepts.
+
+Candidate: not
+
+Interviewer: Have you encountered situations where you needed to perform calculations across a set of rows related to the current row, such as calculating a moving average or ranking items within a group?
+
+Candidate: no
+
+Interviewer: Could you describe a situation where you had to analyze trends or patterns in data over time, and how you approached that analysis in SQL or another tool?
+
+Candidate: cannot recall
+
+Interviewer: Your resume mentions increasing customer retention through user segmentation analytics at NeoBank Technologies. Could you perhaps elaborate on how you approached that analysis using SQL or other tools?
+
+Candidate: Certainly. So, at NeoBank Technologies, I, um, worked on, you know, analyzing user segmentation to help with customer retention. We, uh, used SQL mostly—I think—with some dashboards, maybe Power BI or Tableau... not entirely sure which, but it was a visual tool.
+
+For the segmentation part, I wrote queries—well, the team did—to, um, group users based on some attributes like... login frequency, maybe transaction types? Then we tried to look at who was churning. I think we used a CASE statement or something like that to, um, classify users.
+
+
+
+Interviewer: Could you provide a specific example of a SQL query you wrote or modified to segment users based on login frequency or transaction types?
+
+Candidate: I cannot recall at this time
+
+Interviewer: Okay, let's switch gears slightly. Can you describe your experience with creating dashboards in Power BI? Perhaps walk me through a specific dashboard you developed, the data sources you used, and the key performance indicators (KPIs) it tracked.
+
+Candidate: Oh, I havent prepared for ti
+
+Interviewer: Understood. Let's focus on your SQL skills then. Can you describe a complex SQL query you've written, including the tables involved, the logic behind it, and what business problem it solved?
+
+Candidate: Not suire
+
+Interviewer: Can you describe a simpler SQL query you've written, or any SQL tasks you've performed, even if they weren't particularly complex?
+
+Candidate: I cannot
+
+Interviewer: Perhaps my question was not clear. Let me rephrase: Have you ever used SQL to retrieve, manipulate, or analyze data? If so, can you provide a brief example, even if it's a simple one?
+
+Candidate: Not 
+
+Interviewer: I understand that sometimes it can be difficult to recall specific instances on the spot. To help, could you describe a situation where you had to extract data from a database for analysis, even if you don't remember the exact SQL syntax? What was the purpose, and what information were you trying to retrieve?
+
+Candidate: I uh..........
+
+Interviewer: Can you describe a specific project where you extracted data from a database for analysis? What was the business problem you were trying to solve, and what tables did you access? Even a high-level description is helpful.
+
+Candidate: I solved the business problem as. was asked for.
+
+Interviewer: Could you elaborate on a specific instance where you used SQL to extract and analyze data? Please provide details about the business problem, the tables involved, and the SQL queries you used.
+
+Candidate: Not able to recall.
+
+Interviewer: Let's switch gears slightly. Could you describe your experience with Excel, specifically focusing on your use of VLOOKUP or INDEX/MATCH functions?
+
+Candidate: I told I havent used them
+
+Interviewer: Could you describe your experience with other Excel functions, such as pivot tables, data validation, or conditional formatting? Give me some examples of how you have used them.
+
+Candidate: o
+
+Interviewer: Could you please elaborate on your experience with Excel functions like pivot tables, data validation, or conditional formatting? Provide specific examples of how you've used them in your previous roles to analyze data or solve business problems.
+
+Candidate: NO
+
+Interviewer: Have you used any other data analysis tools or methods in your work, even if you haven't used Excel's specific functions?
+
+Candidate: no
+
+Interviewer: Could you elaborate on your experience with these tools, and perhaps clarify your previous response?
+
+Candidate: no
+
+Interviewer: Let's try a different approach. Could you describe a specific project where you used SQL to solve a business problem? Please be detailed about the problem, your approach, the SQL queries you wrote, and the results you achieved.
+
+Candidate: I cannot recall right now.
+
+Interviewer: Let's try to jog your memory. Perhaps you could describe a time when you had to extract data using SQL for reporting purposes? Even a simplified version would be helpful.
+
+Candidate: sorry I am not able to
+
+Interviewer: Let's try a different approach. Can you describe the difference between a LEFT JOIN and an INNER JOIN in SQL, and when you might use each one?
+
+Candidate: I am not able to 
+
+Interviewer: Okay, let's revisit the fundamentals. Could you explain what a primary key is in a SQL database, and why it's important?
+
+Candidate: no
+
+Interviewer: Okay, let's revisit the fundamentals. Could you explain what a primary key is in a SQL database, and why it's important?
+
+Candidate: no
+
+Interviewer: Could you please elaborate on your understanding of primary keys, or perhaps tell me what you know about keys in general in relational databases?
+
+Candidate: not abkle to
+
+Interviewer: Can you explain the purpose of a primary key and how it ensures data integrity within a table?
+
+Candidate: Not able to
+
+Interviewer: Can you describe a situation where not having a primary key would cause problems in a database table?
+
+Candidate: Not sure
+
+Interviewer: Let's rephrase the question. Can you explain what the purpose of a primary key is in a database table, and give a simple example?
+
+Candidate: I am really not able to recall.
+
+Interviewer: Let's try another fundamental SQL concept. Can you explain what the purpose of a primary key is in a database table, and give a simple example? Take your time to think it through.
+
+Candidate: I cannot think right now.
+
+Interviewer: Let's try a different approach. Perhaps an Excel question will be more suitable at this time. Can you describe a situation where you would use VLOOKUP, and what are its limitations?
+
+Candidate: Can we do something else
+
+Interviewer: I'd appreciate it if you could answer the VLOOKUP question as it's relevant to the role. If you are still hesitant, I will have to re-evaluate the continuation of this interview.
+
+Candidate: Never used
+
+Interviewer: Can you describe your experience with any other Excel functions used for data lookup or manipulation?
+
+Candidate: never
+
+Interviewer: Let's switch gears to SQL. Can you describe a complex SQL query you've written, including the tables involved, the logic behind it, and the purpose it served?
+
+Candidate: I have not
+
+Interviewer: To clarify, have you perhaps worked on or assisted with the development of a complex SQL query, even if you didn't write it yourself from scratch? Perhaps you can describe a query you encountered and understood the logic behind?
+
+Candidate: no
+
+Interviewer: To clarify, have you perhaps worked on or assisted with the development of a complex SQL query, even if you didn't write it yourself from scratch? Perhaps you can describe a query you encountered and understood the logic behind?
+
+Candidate: not worked
+
+Interviewer: Before we proceed further, can you describe a scenario where you had to optimize an Excel model for performance and what steps you took to achieve that?
+
+Candidate: never doem
+
+Interviewer: Can you elaborate on your experience with optimizing Excel models or describe theoretical approaches to improve their performance?
+
+Candidate: I am not able to
+
+Interviewer: Let's switch gears to SQL. Can you describe a situation where you used window functions to solve a complex analytical problem?
+
+Candidate: I apologize, I require to go now.
+
+Interviewer: It seems the interview needs to be concluded here due to unforeseen circumstances. Thank you for your time.

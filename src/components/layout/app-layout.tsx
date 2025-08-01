@@ -10,7 +10,7 @@ import {
   SidebarMenuButton,
   SidebarInset,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, BotMessageSquare, History, FileText } from 'lucide-react';
+import { LayoutDashboard, FileText } from 'lucide-react';
 import { AxelLogo } from '@/components/axel-logo';
 import { Header } from './header';
 import { usePathname } from 'next/navigation';
@@ -19,9 +19,7 @@ import { usePageLoader } from '@/hooks/use-page-loader';
 
 const menuItems = [
   { href: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-  { href: '#', label: 'Interviews', icon: BotMessageSquare },
   { href: '/reports', label: 'Feedback Reports', icon: FileText },
-  { href: '#', label: 'History', icon: History },
 ];
 
 export function AppLayout({ children }: { children: React.ReactNode }) {
