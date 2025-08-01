@@ -41,31 +41,31 @@ export async function saveInterviewTranscript(
 
     // Format the report
     const reportContent = `
-Feedback Report for ${interview.role} Interview
-=================================================
-Candidate: ${interview.candidateResume.split('\n')[0]}
-Date: ${new Date(interview.date).toLocaleDateString()}
-Interview ID: ${interview.id}
--------------------------------------------------
+        Feedback Report for ${interview.role} Interview
+        =================================================
+        Candidate: ${interview.candidateResume.split('\n')[0]}
+        Date: ${new Date(interview.date).toLocaleDateString()}
+        Interview ID: ${interview.id}
+        -------------------------------------------------
 
-### Strengths ###
-${feedbackOutput.strengths}
+        ### Strengths ###
+        ${feedbackOutput.strengths}
 
--------------------------------------------------
+        -------------------------------------------------
 
-### Areas for Improvement ###
-${feedbackOutput.weaknesses}
+        ### Areas for Improvement ###
+        ${feedbackOutput.weaknesses}
 
--------------------------------------------------
+        -------------------------------------------------
 
-### Suggested Next Steps ###
-${feedbackOutput.nextSteps}
+        ### Suggested Next Steps ###
+        ${feedbackOutput.nextSteps}
 
--------------------------------------------------
-### Full Transcript ###
--------------------------------------------------
-${transcript}
-`;
+        -------------------------------------------------
+        ### Full Transcript ###
+        -------------------------------------------------
+        ${transcript}
+    `;
 
     const transcriptsDir = path.join(process.cwd(), 'transcripts');
     await fs.mkdir(transcriptsDir, { recursive: true });
