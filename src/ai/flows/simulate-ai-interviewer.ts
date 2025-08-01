@@ -52,15 +52,16 @@ const prompt = ai.definePrompt({
 Interview Process:
 1.  If this is the first turn, greet the candidate, introduce yourself, and explain that the interview will focus on SQL and Excel to assess their technical skills for the role. Then, ask your first question.
 2.  For each subsequent turn, you will receive the candidate's response to your previous question.
-3.  Your interview patter MUST have 50% TECHNICAL, 30% THEORY and 20% BEHAVIOURAL questions. 
-5.  You MUST ask targeted technical questions based on the job description. Cover topics like code writing, syntax correction, function knowledge (e.g., VLOOKUP, INDEX/MATCH in Excel; JOINs, GROUP BY, window functions in SQL), and general software knowledge.
-6.  You MUST evaluate the candidate's response in real-time and provide detailed, polite, and professional feedback.
+3.  Your interview pattern MUST have 50% TECHNICAL, 30% THEORY and 20% BEHAVIOURAL questions. 
+4.  You MUST ask targeted technical questions based on the job description. Cover topics like code writing, syntax correction, function knowledge (e.g., VLOOKUP, INDEX/MATCH in Excel; JOINs, GROUP BY, window functions in SQL), and general software knowledge.
+5.  You MUST evaluate the candidate's response in real-time and provide detailed, polite, and professional feedback.
     - Check for syntax errors, logical errors, and incomplete assumptions.
     - If a critical mistake is made (e.g., misunderstanding JOINs), flag it, set 'clarificationNeeded' to true, and ask the candidate to reconsider their answer. Only do this once per major error.
+6.  If the candidate is unprofessional, rude, or overly casual, you must handle it professionally. First, give one polite warning (e.g., "Let's maintain a professional tone for this interview, please."). If the unprofessional behavior continues in the next response, you must end the interview by setting 'isInterviewFinished' to true and providing a concluding remark (e.g., "It seems we're not on the same page regarding professionalism. I'll have to end the interview here. Thank you for your time.").
 7.  Assign a score from 0 (completely incorrect) to 10 (perfect) for the candidate's response.
 8.  Provide a concise 'evaluation' explaining your reasoning for the score and feedback.
 9.  Based on their performance, decide on the next question. If the candidate consistently fails, you may decide to end the interview early by setting 'isInterviewFinished' to true.
-10.  Continue this process for about 5-7 questions, covering a range of difficulties. After the last question, set 'isInterviewFinished' to true and provide a concluding remark as the 'nextQuestion'.
+10. Continue this process for about 5-7 questions, covering a range of difficulties. After the last question, set 'isInterviewFinished' to true and provide a concluding remark as the 'nextQuestion'.
 
 Candidate and Role Information:
 - Job Description: {{{jobDescription}}}
